@@ -1,0 +1,104 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { dataLonga, isoDia } from '../lib/conteudo';
+
+interface Props {
+  noticia: CollectionEntry<'noticias'>;
+}
+
+const { noticia } = Astro.props;
+const { titulo, data, resumo, imagem, imagem_descricao } = noticia.data;
+---
+
+<article class="cartao">
+  <div class="cartao__imagem">
+    {
+      imagem ? (
+        <img src={imagem} alt={imagem_descricao ?? ''} loading="lazy" />
+      ) : (
+        <div class="cartao__sem-imagem" aria-hidden="true">
+          <img src="/marca.svg" alt="" />
+        </div>
+      )
+    }
+  </div>
+  <div class="cartao__corpo">
+    <time class="etiqueta" datetime={isoDia(data)}>{dataLonga(data)}</time>
+    <h3><a href={`/noticias/${noticia.id}/`}>{titulo}</a></h3>
+    {resumo && <p>{resumo}</p>}
+  </div>
+</article>
+
+<style>
+  .cartao {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--superficie);
+    border: 1px solid var(--linha);
+    border-radius: var(--raio);
+    overflow: hidden;
+    box-shadow: var(--sombra);
+    transition: transform 0.18s ease;
+  }
+
+  .cartao:hover {
+    transform: translateY(-3px);
+  }
+
+  .cartao__imagem {
+    aspect-ratio: 16 / 9;
+    background: var(--verde);
+  }
+
+  .cartao__imagem > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cartao__sem-imagem {
+    height: 100%;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(circle at 80% 20%, rgb(217 169 63 / 0.25), transparent 55%),
+      linear-gradient(135deg, var(--verde) 0%, var(--verde-escuro) 100%);
+  }
+
+  .cartao__sem-imagem img {
+    width: 45%;
+    filter: brightness(0) invert(1);
+    opacity: 0.18;
+  }
+
+  .cartao__corpo {
+    padding: 1.25rem 1.35rem 1.5rem;
+  }
+
+  .cartao h3 {
+    margin: 0.35rem 0 0.5rem;
+  }
+
+  .cartao h3 a {
+    color: var(--verde);
+    text-decoration: none;
+  }
+
+  /* O cartão inteiro é clicável */
+  .cartao h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .cartao p {
+    margin: 0;
+    color: var(--texto-suave);
+    font-size: 0.97rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

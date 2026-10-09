@@ -1,0 +1,232 @@
+---
+import Base from '../layouts/Base.astro';
+import CartaoNoticia from '../components/CartaoNoticia.astro';
+import CartaoEvento from '../components/CartaoEvento.astro';
+import { eventos, noticias, dia, mesCurto, diaSemana, isoDia } from '../lib/conteudo';
+
+const { proximos } = await eventos();
+const destaque = proximos[0];
+const outrosEventos = proximos.slice(1, 4);
+const ultimas = (await noticias()).slice(0, 3);
+---
+
+<Base>
+  <section class="heroi">
+    <img class="heroi__fundo" src="/marca.svg" alt="" aria-hidden="true" />
+    <div class="contentor heroi__conteudo">
+      {
+        destaque ? (
+          <div data-destaque={isoDia(destaque.data.data)}>
+            <span class="heroi__etiqueta">Próximo evento</span>
+            <h1>{destaque.data.titulo}</h1>
+            {destaque.data.subtitulo && <p class="heroi__sub">{destaque.data.subtitulo}</p>}
+            <div class="heroi__data">
+              <span class="heroi__dia">{dia(destaque.data.data)}</span>
+              <span class="heroi__mes">{mesCurto(destaque.data.data)}</span>
+              <span class="heroi__detalhe">
+                <span>
+                  {diaSemana(destaque.data.data)}
+                  {destaque.data.hora && ` · ${destaque.data.hora}`}
+                </span>
+                {destaque.data.local && <span>{destaque.data.local}</span>}
+              </span>
+            </div>
+            <a class="botao botao--dourado" href={`/eventos/${destaque.id}/`}>
+              Saber mais sobre a prova <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        ) : (
+          <div>
+            <span class="heroi__etiqueta">Desporto · Comunidade · Território</span>
+            <h1>Guimarães em Movimento</h1>
+            <p class="heroi__sub">Atletismo, corridas, caminhadas e atividade física para todos.</p>
+            <a class="botao botao--dourado" href="/eventos/">
+              Ver eventos <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        )
+      }
+    </div>
+  </section>
+
+  <section class="seccao contentor sobre">
+    <div>
+      <span class="etiqueta">Quem somos</span>
+      <h2>Desporto, comunidade e território</h2>
+    </div>
+    <div>
+      <p>
+        A Associação Guimarães em Movimento (AGEM) é uma associação sem fins lucrativos que promove, organiza e apoia
+        atividades e eventos desportivos — provas de atletismo, corridas de estrada, corta-mato, caminhadas e marchas
+        — e iniciativas de promoção da atividade física, da saúde, da inclusão, do voluntariado e da valorização do
+        território.
+      </p>
+      <a href="/associacao/">Conhecer a associação <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  {
+    outrosEventos.length > 0 && (
+      <section class="seccao contentor">
+        <div class="seccao__topo">
+          <h2>Próximos eventos</h2>
+          <a href="/eventos/">Todos os eventos →</a>
+        </div>
+        <div class="lista-eventos">
+          {outrosEventos.map((e) => (
+            <CartaoEvento evento={e} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <section class="seccao contentor">
+    <div class="seccao__topo">
+      <h2>Notícias</h2>
+      {ultimas.length > 0 && <a href="/noticias/">Todas as notícias →</a>}
+    </div>
+    {
+      ultimas.length > 0 ? (
+        <div class="grelha">
+          {ultimas.map((n) => (
+            <CartaoNoticia noticia={n} />
+          ))}
+        </div>
+      ) : (
+        <p class="vazio">Ainda não há notícias publicadas.</p>
+      )
+    }
+  </section>
+</Base>
+
+<script is:inline>
+  // O site é gerado quando há alterações: se o "próximo evento" já passou, deixa de o anunciar como próximo.
+  (function () {
+    var el = document.querySelector('[data-destaque]');
+    if (!el) return;
+    var hoje = new Date().toISOString().slice(0, 10);
+    if (el.getAttribute('data-destaque') < hoje) {
+      var etiqueta = el.querySelector('.heroi__etiqueta');
+      if (etiqueta) etiqueta.textContent = 'Evento realizado';
+    }
+  })();
+</script>
+
+<style>
+  .heroi {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    background:
+      radial-gradient(ellipse at 85% 10%, rgb(217 169 63 / 0.28), transparent 50%),
+      linear-gradient(160deg, var(--verde) 0%, var(--verde-escuro) 100%);
+  }
+
+  .heroi__fundo {
+    position: absolute;
+    right: -6%;
+    bottom: -8%;
+    width: min(70vw, 820px);
+    filter: brightness(0) invert(1);
+    opacity: 0.07;
+    pointer-events: none;
+  }
+
+  .heroi__conteudo {
+    position: relative;
+    padding-block: clamp(3.5rem, 9vw, 6.5rem);
+  }
+
+  .heroi__etiqueta {
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding: 0.35rem 0.85rem;
+    border: 1px solid rgb(217 169 63 / 0.6);
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dourado-claro);
+  }
+
+  .heroi h1 {
+    max-width: 18ch;
+    margin-bottom: 0.3em;
+    color: #fff;
+    font-size: clamp(2.3rem, 6vw, 4.25rem);
+  }
+
+  .heroi__sub {
+    margin: 0 0 1.75rem;
+    max-width: 40ch;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    font-weight: 600;
+    color: var(--verde-suave);
+  }
+
+  .heroi__data {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .heroi__dia {
+    font-size: clamp(3rem, 8vw, 4.5rem);
+    font-weight: 800;
+    line-height: 0.9;
+    color: var(--dourado-claro);
+  }
+
+  .heroi__mes {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--dourado-claro);
+  }
+
+  .heroi__detalhe {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1rem;
+    border-left: 2px solid rgb(255 255 255 / 0.25);
+    color: var(--verde-suave);
+    font-weight: 600;
+  }
+
+  .heroi__detalhe span:first-child::first-letter {
+    text-transform: uppercase;
+  }
+
+  .sobre {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 2rem 4rem;
+    align-items: start;
+  }
+
+  .sobre p {
+    margin-top: 0;
+    font-size: 1.15rem;
+  }
+
+  .sobre a {
+    font-weight: 700;
+  }
+
+  .lista-eventos {
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (max-width: 760px) {
+    .sobre {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+  }
+</style>

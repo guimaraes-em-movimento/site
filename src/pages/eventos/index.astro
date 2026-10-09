@@ -1,0 +1,59 @@
+---
+import Base from '../../layouts/Base.astro';
+import CartaoEvento from '../../components/CartaoEvento.astro';
+import { eventos } from '../../lib/conteudo';
+
+const { proximos, realizados } = await eventos();
+---
+
+<Base titulo="Eventos" descricao="Provas, corridas, caminhadas e outros eventos organizados pela Associação Guimarães em Movimento.">
+  <header class="topo-pagina">
+    <div class="contentor">
+      <span class="etiqueta">Agenda</span>
+      <h1>Eventos</h1>
+      <p>Provas, corridas, caminhadas e outras iniciativas organizadas ou apoiadas pela associação.</p>
+    </div>
+  </header>
+
+  <section class="seccao contentor">
+    <h2>Próximos</h2>
+    <div class="lista" id="proximos">
+      {proximos.map((e) => <CartaoEvento evento={e} />)}
+    </div>
+    <p class="vazio" id="sem-proximos" hidden={proximos.length > 0}>
+      De momento não há eventos agendados. Volte em breve!
+    </p>
+  </section>
+
+  <section class="seccao contentor" id="seccao-realizados" hidden={realizados.length === 0}>
+    <h2>Realizados</h2>
+    <div class="lista" id="realizados">
+      {realizados.map((e) => <CartaoEvento evento={e} />)}
+    </div>
+  </section>
+</Base>
+
+<script is:inline>
+  // O site só é gerado quando há alterações: move para "Realizados" os eventos que entretanto já passaram.
+  (function () {
+    var hoje = new Date().toISOString().slice(0, 10);
+    var proximos = document.getElementById('proximos');
+    var realizados = document.getElementById('realizados');
+    var passados = Array.prototype.filter.call(proximos.querySelectorAll('[data-evento]'), function (el) {
+      return el.getAttribute('data-evento') < hoje;
+    });
+    if (!passados.length) return;
+    passados.forEach(function (el) {
+      realizados.insertBefore(el, realizados.firstChild);
+    });
+    document.getElementById('seccao-realizados').hidden = false;
+    document.getElementById('sem-proximos').hidden = proximos.children.length > 0;
+  })();
+</script>
+
+<style>
+  .lista {
+    display: grid;
+    gap: 1rem;
+  }
+</style>

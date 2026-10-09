@@ -1,0 +1,102 @@
+# Configuração do painel de edição (Pages CMS — https://app.pagescms.org)
+media:
+  input: public/media
+  output: /media
+  extensions: [jpg, jpeg, png, webp, gif, pdf]
+
+content:
+  - name: noticias
+    label: Notícias
+    type: collection
+    path: src/content/noticias
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [titulo, data, rascunho]
+      primary: titulo
+      sort: [data, titulo]
+      default:
+        sort: data
+        order: desc
+    fields:
+      - name: titulo
+        label: Título
+        type: string
+        required: true
+      - name: data
+        label: Data
+        type: date
+        required: true
+      - name: resumo
+        label: Resumo
+        type: text
+        description: Uma ou duas frases. Aparece na lista de notícias e quando a notícia é partilhada.
+      - name: imagem
+        label: Imagem de capa
+        type: image
+        description: Fotografia na horizontal, idealmente com menos de 1 MB.
+      - name: imagem_descricao
+        label: Descrição da imagem
+        type: string
+        description: O que se vê na fotografia (para quem usa leitores de ecrã).
+      - name: rascunho
+        label: Rascunho (não publicar ainda)
+        type: boolean
+        default: false
+      - name: body
+        label: Texto
+        type: rich-text
+
+  - name: eventos
+    label: Eventos
+    type: collection
+    path: src/content/eventos
+    filename: "{fields.data}-{primary}.md"
+    view:
+      fields: [titulo, data, rascunho]
+      primary: titulo
+      sort: [data, titulo]
+      default:
+        sort: data
+        order: desc
+    fields:
+      - name: titulo
+        label: Nome do evento
+        type: string
+        required: true
+      - name: subtitulo
+        label: Subtítulo
+        type: string
+        description: Opcional. Ex.: "Campeonato Regional de Corta-Mato Longo".
+      - name: data
+        label: Data
+        type: date
+        required: true
+      - name: hora
+        label: Horário
+        type: string
+        description: Texto livre. Ex.: "Partidas das 14h00 às 16h40".
+      - name: local
+        label: Local
+        type: string
+      - name: mapa
+        label: Link para o mapa
+        type: string
+        description: Opcional. Copie o link de partilha do Google Maps.
+      - name: resumo
+        label: Resumo
+        type: text
+        description: Uma ou duas frases sobre o evento.
+      - name: imagem
+        label: Imagem ou cartaz
+        type: image
+        description: Idealmente com menos de 1 MB.
+      - name: imagem_descricao
+        label: Descrição da imagem
+        type: string
+      - name: rascunho
+        label: Rascunho (não publicar ainda)
+        type: boolean
+        default: false
+      - name: body
+        label: Texto
+        type: rich-text

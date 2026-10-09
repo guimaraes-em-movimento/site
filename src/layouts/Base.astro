@@ -1,0 +1,47 @@
+---
+import '@fontsource/montserrat/400.css';
+import '@fontsource/montserrat/600.css';
+import '@fontsource/montserrat/700.css';
+import '@fontsource/montserrat/800.css';
+import '../styles/global.css';
+import Cabecalho from '../components/Cabecalho.astro';
+import Rodape from '../components/Rodape.astro';
+
+interface Props {
+  titulo?: string;
+  descricao?: string;
+}
+
+const nomeSite = 'Associação Guimarães em Movimento';
+const { titulo, descricao = 'Associação sem fins lucrativos que promove o desporto e a atividade física em Guimarães.' } =
+  Astro.props;
+const tituloCompleto = titulo ? `${titulo} · ${nomeSite}` : nomeSite;
+const canonico = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descricao} />
+    <link rel="canonical" href={canonico} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#014423" />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_PT" />
+    <meta property="og:site_name" content={nomeSite} />
+    <meta property="og:title" content={titulo ?? nomeSite} />
+    <meta property="og:description" content={descricao} />
+    <meta property="og:url" content={canonico} />
+  </head>
+  <body>
+    <a class="saltar" href="#conteudo">Saltar para o conteúdo</a>
+    <Cabecalho />
+    <main id="conteudo">
+      <slot />
+    </main>
+    <Rodape />
+  </body>
+</html>

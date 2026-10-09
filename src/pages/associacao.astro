@@ -1,0 +1,145 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Fins: artigo 4.º, n.º 2, dos Estatutos (texto integral)
+const fins = [
+  'Promover a prática regular ou ocasional da atividade física e do desporto',
+  'Organizar, promover, produzir, apoiar ou colaborar na realização de competições, provas, corridas, corta-matos, caminhadas, marchas, encontros, festivais e outros eventos de natureza desportiva, recreativa ou comunitária',
+  'Promover, fomentar e desenvolver a prática direta de modalidades desportivas',
+  'Criar, organizar e gerir equipas, grupos, escolas, secções, núcleos ou outras estruturas de prática desportiva',
+  'Participar em competições e atividades de natureza federada ou não federada',
+  'Promover atividades de iniciação, formação, aperfeiçoamento e desenvolvimento desportivo',
+  'Promover estilos de vida ativos, saúde, bem-estar e qualidade de vida',
+  'Promover a inclusão social, igualdade de oportunidades, solidariedade, voluntariado e participação comunitária através da atividade física e do desporto',
+  'Promover e valorizar Guimarães e o seu território, património, cultura, identidade, ambiente e comunidade através da atividade desportiva e recreativa',
+  'Desenvolver iniciativas dirigidas a crianças, jovens, adultos, seniores, pessoas com deficiência ou incapacidade e demais grupos da população',
+  'Promover a formação e valorização de atletas, treinadores, dirigentes, árbitros, voluntários e outros agentes desportivos',
+  'Desenvolver ações de formação, sensibilização, informação, divulgação e capacitação relacionadas com os seus fins',
+  'Colaborar com autarquias locais, administração pública, estabelecimentos de ensino, instituições particulares de solidariedade social, associações, clubes, federações, entidades desportivas, empresas e demais entidades públicas ou privadas',
+  'Contribuir para o desenvolvimento desportivo, social, turístico, cultural e económico do território através da realização das suas atividades',
+  'Desenvolver quaisquer outras atividades conexas ou complementares compatíveis com a natureza e os fins da Associação',
+];
+---
+
+<Base titulo="A associação" descricao="Quem somos, o que fazemos e como está organizada a Associação Guimarães em Movimento.">
+  <header class="topo-pagina">
+    <div class="contentor">
+      <span class="etiqueta">Quem somos</span>
+      <h1>A associação</h1>
+      <p>
+        A Associação Guimarães em Movimento (AGEM) é uma associação sem fins lucrativos, constituída em Guimarães a 7
+        de outubro de 2026.
+      </p>
+    </div>
+  </header>
+
+  <section class="seccao contentor objeto">
+    <img src="/logo.svg" alt="Logótipo da Associação Guimarães em Movimento" width="360" height="266" />
+    <div class="texto">
+      <h2>O nosso objeto</h2>
+      <p class="destaque">
+        A associação tem por objeto a promoção, organização, desenvolvimento e apoio a atividades e eventos
+        desportivos, designadamente provas de atletismo, corridas de estrada, corta-mato, caminhadas, marchas,
+        atividades de lazer, formação desportiva e iniciativas de promoção da atividade física, saúde, inclusão,
+        voluntariado e valorização do território.
+      </p>
+      <p>Prossegue fins de interesse geral, regional e local, em benefício da comunidade, sem finalidade lucrativa.</p>
+    </div>
+  </section>
+
+  <section class="seccao contentor">
+    <h2>Os nossos fins</h2>
+    <ol class="fins">
+      {fins.map((f) => <li>{f}.</li>)}
+    </ol>
+  </section>
+
+  <section class="seccao contentor">
+    <div class="caixa">
+      <h2>Órgãos sociais</h2>
+      <p>
+        Os órgãos sociais — Mesa da Assembleia Geral, Direção e Conselho Fiscal — serão eleitos na primeira Assembleia
+        Geral da associação.
+      </p>
+      <p class="pequeno">NIPC 519 670 051 · Sede em Guimarães</p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .objeto {
+    display: grid;
+    grid-template-columns: minmax(200px, 360px) 1fr;
+    gap: 2rem 4rem;
+    align-items: center;
+  }
+
+  .destaque {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--verde);
+  }
+
+  .fins {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: fim;
+  }
+
+  .fins li {
+    counter-increment: fim;
+    position: relative;
+    padding: 1.1rem 1.2rem 1.1rem 3.6rem;
+    background: var(--superficie);
+    border: 1px solid var(--linha);
+    border-radius: var(--raio);
+    font-size: 0.98rem;
+  }
+
+  .fins li::before {
+    content: counter(fim, lower-alpha);
+    position: absolute;
+    left: 1.1rem;
+    top: 1rem;
+    display: grid;
+    place-items: center;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    background: var(--verde);
+    color: var(--dourado-claro);
+    font-weight: 800;
+    font-size: 0.9rem;
+  }
+
+  .caixa {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: var(--raio);
+    background: var(--fundo-2);
+    border-left: 6px solid var(--dourado);
+  }
+
+  .caixa p {
+    max-width: 65ch;
+  }
+
+  .pequeno {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+    color: var(--texto-suave);
+  }
+
+  @media (max-width: 760px) {
+    .objeto {
+      grid-template-columns: 1fr;
+    }
+
+    .objeto img {
+      max-width: 260px;
+    }
+  }
+</style>

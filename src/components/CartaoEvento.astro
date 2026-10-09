@@ -1,0 +1,113 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { dia, mesCurto, diaSemana, isoDia } from '../lib/conteudo';
+
+interface Props {
+  evento: CollectionEntry<'eventos'>;
+}
+
+const { evento } = Astro.props;
+const { titulo, subtitulo, data, hora, local } = evento.data;
+---
+
+<article class="evento" data-evento={isoDia(data)}>
+  <time class="evento__data" datetime={isoDia(data)}>
+    <span class="evento__dia">{dia(data)}</span>
+    <span class="evento__mes">{mesCurto(data)}</span>
+    <span class="evento__ano">{data.getUTCFullYear()}</span>
+  </time>
+  <div class="evento__corpo">
+    <h3><a href={`/eventos/${evento.id}/`}>{titulo}</a></h3>
+    {subtitulo && <p class="evento__sub">{subtitulo}</p>}
+    <p class="evento__info">
+      <span>{diaSemana(data)}{hora && ` · ${hora}`}</span>
+      {local && <span>{local}</span>}
+    </p>
+  </div>
+</article>
+
+<style>
+  .evento {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.25rem;
+    align-items: center;
+    padding: 1.1rem 1.25rem;
+    background: var(--superficie);
+    border: 1px solid var(--linha);
+    border-radius: var(--raio);
+    box-shadow: var(--sombra);
+    transition: transform 0.18s ease;
+  }
+
+  .evento:hover {
+    transform: translateY(-2px);
+  }
+
+  .evento__data {
+    display: grid;
+    justify-items: center;
+    min-width: 4.5rem;
+    padding: 0.6rem 0.5rem;
+    border-radius: 10px;
+    background: var(--verde);
+    color: #fff;
+    line-height: 1;
+  }
+
+  .evento__dia {
+    font-size: 1.9rem;
+    font-weight: 800;
+  }
+
+  .evento__mes {
+    margin-top: 0.2rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--dourado-claro);
+  }
+
+  .evento__ano {
+    margin-top: 0.25rem;
+    font-size: 0.72rem;
+    opacity: 0.8;
+  }
+
+  .evento h3 {
+    margin: 0 0 0.2rem;
+  }
+
+  .evento h3 a {
+    color: var(--verde);
+    text-decoration: none;
+  }
+
+  .evento h3 a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .evento__sub {
+    margin: 0 0 0.35rem;
+    font-weight: 600;
+    color: var(--dourado-texto);
+    font-size: 0.95rem;
+  }
+
+  .evento__info {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.15rem 1rem;
+    color: var(--texto-suave);
+    font-size: 0.93rem;
+  }
+
+  .evento__info span:first-child::first-letter {
+    text-transform: uppercase;
+  }
+</style>

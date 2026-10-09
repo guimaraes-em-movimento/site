@@ -1,0 +1,96 @@
+---
+const ano = new Date().getFullYear();
+---
+
+<footer class="rodape">
+  <div class="contentor rodape__grelha">
+    <a href="/" class="rodape__logo">
+      <img src="/logo.svg" alt="Associação Guimarães em Movimento" width="180" height="133" loading="lazy" />
+    </a>
+    <div>
+      <p class="rodape__titulo">Associação Guimarães em Movimento</p>
+      <p>Associação sem fins lucrativos · Guimarães<br />NIPC 519 670 051</p>
+    </div>
+    <div>
+      <p class="rodape__titulo">Contacto</p>
+      <p><a href="mailto:geral@guimaraesemmovimento.pt">geral@guimaraesemmovimento.pt</a></p>
+    </div>
+    <nav aria-label="Rodapé">
+      <p class="rodape__titulo">Site</p>
+      <ul>
+        <li><a href="/eventos/">Eventos</a></li>
+        <li><a href="/noticias/">Notícias</a></li>
+        <li><a href="/associacao/">A associação</a></li>
+        <li><a href="/contactos/">Contactos</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="contentor rodape__fim">© {ano} Associação Guimarães em Movimento (AGEM)</div>
+</footer>
+
+<style>
+  .rodape {
+    margin-top: clamp(3rem, 8vw, 6rem);
+    background: var(--fundo-2);
+    border-top: 4px solid var(--dourado);
+    font-size: 0.95rem;
+    color: var(--texto-suave);
+  }
+
+  .rodape__grelha {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: auto 1fr 1fr auto;
+    align-items: start;
+    padding-block: 3rem 2rem;
+  }
+
+  .rodape__logo img {
+    width: 150px;
+  }
+
+  .rodape p {
+    margin: 0 0 0.4rem;
+  }
+
+  .rodape__titulo {
+    font-weight: 700;
+    color: var(--verde);
+  }
+
+  .rodape ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .rodape li {
+    margin-bottom: 0.25rem;
+  }
+
+  .rodape a {
+    color: var(--texto);
+  }
+
+  .rodape__fim {
+    padding-block: 1.25rem;
+    border-top: 1px solid var(--linha);
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 860px) {
+    .rodape__grelha {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .rodape__logo {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .rodape__grelha {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

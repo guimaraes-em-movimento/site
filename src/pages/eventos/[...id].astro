@@ -1,0 +1,154 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { dataLonga, diaSemana, isoDia } from '../../lib/conteudo';
+
+export async function getStaticPaths() {
+  const eventos = await getCollection('eventos', ({ data }) => !data.rascunho);
+  return eventos.map((evento) => ({ params: { id: evento.id }, props: { evento } }));
+}
+
+const { evento } = Astro.props;
+const { titulo, subtitulo, data, hora, local, mapa, resumo, imagem, imagem_descricao } = evento.data;
+const { Content } = await render(evento);
+---
+
+<Base titulo={titulo} descricao={resumo ?? `${titulo} — ${dataLonga(data)}`}>
+  <header class="topo-pagina">
+    <div class="contentor">
+      <a class="voltar" href="/eventos/">← Eventos</a>
+      <h1>{titulo}</h1>
+      {subtitulo && <p class="subtitulo">{subtitulo}</p>}
+    </div>
+  </header>
+
+  <div class="contentor seccao evento">
+    <aside class="ficha" aria-label="Informações do evento">
+      <dl>
+        <div>
+          <dt>Data</dt>
+          <dd><time datetime={isoDia(data)}>{dataLonga(data)}</time><br /><span class="dia-semana">{diaSemana(data)}</span></dd>
+        </div>
+        {
+          hora && (
+            <div>
+              <dt>Horário</dt>
+              <dd>{hora}</dd>
+            </div>
+          )
+        }
+        {
+          local && (
+            <div>
+              <dt>Local</dt>
+              <dd>
+                {local}
+                {mapa && (
+                  <>
+                    <br />
+                    <a href={mapa} target="_blank" rel="noopener">Ver no mapa ↗</a>
+                  </>
+                )}
+              </dd>
+            </div>
+          )
+        }
+      </dl>
+    </aside>
+
+    <article class="texto">
+      {imagem && <img class="capa" src={imagem} alt={imagem_descricao ?? ''} />}
+      {resumo && <p class="resumo">{resumo}</p>}
+      <Content />
+    </article>
+  </div>
+</Base>
+
+<style>
+  .voltar {
+    display: inline-block;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .topo-pagina .subtitulo {
+    font-weight: 700;
+    color: var(--dourado-texto);
+  }
+
+  .evento {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2.5rem 3.5rem;
+    align-items: start;
+  }
+
+  .ficha {
+    position: sticky;
+    top: 6rem;
+    padding: 1.5rem;
+    border-radius: var(--raio);
+    background: var(--verde);
+    color: #fff;
+    box-shadow: var(--sombra);
+  }
+
+  .ficha dl {
+    display: grid;
+    gap: 1.1rem;
+    margin: 0;
+  }
+
+  .ficha dt {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dourado-claro);
+  }
+
+  .ficha dd {
+    margin: 0.2rem 0 0;
+    font-weight: 600;
+    line-height: 1.45;
+  }
+
+  .ficha a {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .ficha a:hover {
+    color: var(--dourado-claro);
+  }
+
+  .dia-semana {
+    font-weight: 400;
+    color: var(--verde-suave);
+  }
+
+  .dia-semana::first-letter {
+    text-transform: uppercase;
+  }
+
+  .resumo {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--verde);
+  }
+
+  .capa {
+    margin-top: 0 !important;
+  }
+
+  @media (max-width: 860px) {
+    .evento {
+      grid-template-columns: 1fr;
+    }
+
+    .ficha {
+      position: static;
+    }
+  }
+</style>

@@ -1,0 +1,148 @@
+---
+const ligacoes = [
+  { href: '/eventos/', texto: 'Eventos' },
+  { href: '/noticias/', texto: 'Notícias' },
+  { href: '/associacao/', texto: 'A associação' },
+  { href: '/contactos/', texto: 'Contactos' },
+];
+const atual = Astro.url.pathname;
+---
+
+<header class="cabecalho">
+  <div class="contentor cabecalho__linha">
+    <a class="marca" href="/" aria-label="Associação Guimarães em Movimento — início">
+      <img src="/marca.svg" alt="" width="110" height="50" />
+      <span class="marca__texto">
+        <span class="marca__pequeno">Associação</span>
+        <span class="marca__nome">Guimarães <em>em Movimento</em></span>
+      </span>
+    </a>
+    <nav aria-label="Principal">
+      <ul>
+        {
+          ligacoes.map((l) => (
+            <li>
+              <a href={l.href} aria-current={atual.startsWith(l.href) ? 'page' : undefined}>
+                {l.texto}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .cabecalho {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: rgb(255 255 255 / 0.94);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .cabecalho__linha {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    padding-block: 0.6rem;
+  }
+
+  .marca {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+
+  .marca img {
+    width: 88px;
+    height: auto;
+  }
+
+  .marca__texto {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.05;
+  }
+
+  .marca__pequeno {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--verde);
+  }
+
+  .marca__nome {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--verde);
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+  }
+
+  .marca__nome em {
+    font-style: normal;
+    color: var(--dourado-texto);
+  }
+
+  nav ul {
+    display: flex;
+    gap: 0.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  nav a {
+    display: block;
+    padding: 0.5rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--texto);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  nav a:hover {
+    background: var(--fundo-2);
+    color: var(--verde);
+  }
+
+  nav a[aria-current='page'] {
+    background: var(--verde);
+    color: #fff;
+  }
+
+  @media (max-width: 720px) {
+    .cabecalho__linha {
+      padding-bottom: 0.4rem;
+    }
+
+    nav {
+      width: 100%;
+    }
+
+    nav ul {
+      justify-content: space-between;
+      gap: 0;
+    }
+
+    nav a {
+      padding: 0.45rem 0.6rem;
+      font-size: 0.9rem;
+    }
+
+    .marca img {
+      width: 72px;
+    }
+  }
+</style>

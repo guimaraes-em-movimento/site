@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import CartaoNoticia from '../../components/CartaoNoticia.astro';
+import { noticias } from '../../lib/conteudo';
+
+const todas = await noticias();
+---
+
+<Base titulo="Notícias" descricao="Notícias da Associação Guimarães em Movimento e do desporto em Guimarães.">
+  <header class="topo-pagina">
+    <div class="contentor">
+      <span class="etiqueta">Atualidade</span>
+      <h1>Notícias</h1>
+      <p>Novidades da associação, dos nossos eventos e do desporto em Guimarães.</p>
+    </div>
+  </header>
+
+  <section class="seccao contentor">
+    {
+      todas.length > 0 ? (
+        <div class="grelha">
+          {todas.map((n) => (
+            <CartaoNoticia noticia={n} />
+          ))}
+        </div>
+      ) : (
+        <p class="vazio">Ainda não há notícias publicadas.</p>
+      )
+    }
+  </section>
+</Base>
