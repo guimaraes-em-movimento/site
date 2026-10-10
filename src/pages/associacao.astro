@@ -1,24 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-
-// Fins: artigo 4.º, n.º 2, dos Estatutos (texto integral)
-const fins = [
-  'Promover a prática regular ou ocasional da atividade física e do desporto',
-  'Organizar, promover, produzir, apoiar ou colaborar na realização de competições, provas, corridas, corta-matos, caminhadas, marchas, encontros, festivais e outros eventos de natureza desportiva, recreativa ou comunitária',
-  'Promover, fomentar e desenvolver a prática direta de modalidades desportivas',
-  'Criar, organizar e gerir equipas, grupos, escolas, secções, núcleos ou outras estruturas de prática desportiva',
-  'Participar em competições e atividades de natureza federada ou não federada',
-  'Promover atividades de iniciação, formação, aperfeiçoamento e desenvolvimento desportivo',
-  'Promover estilos de vida ativos, saúde, bem-estar e qualidade de vida',
-  'Promover a inclusão social, igualdade de oportunidades, solidariedade, voluntariado e participação comunitária através da atividade física e do desporto',
-  'Promover e valorizar Guimarães e o seu território, património, cultura, identidade, ambiente e comunidade através da atividade desportiva e recreativa',
-  'Desenvolver iniciativas dirigidas a crianças, jovens, adultos, seniores, pessoas com deficiência ou incapacidade e demais grupos da população',
-  'Promover a formação e valorização de atletas, treinadores, dirigentes, árbitros, voluntários e outros agentes desportivos',
-  'Desenvolver ações de formação, sensibilização, informação, divulgação e capacitação relacionadas com os seus fins',
-  'Colaborar com autarquias locais, administração pública, estabelecimentos de ensino, instituições particulares de solidariedade social, associações, clubes, federações, entidades desportivas, empresas e demais entidades públicas ou privadas',
-  'Contribuir para o desenvolvimento desportivo, social, turístico, cultural e económico do território através da realização das suas atividades',
-  'Desenvolver quaisquer outras atividades conexas ou complementares compatíveis com a natureza e os fins da Associação',
-];
 ---
 
 <Base titulo="A associação" descricao="Quem somos, o que fazemos e como está organizada a Associação Guimarães em Movimento.">
@@ -47,13 +28,6 @@ const fins = [
   </section>
 
   <section class="seccao contentor">
-    <h2>Os nossos fins</h2>
-    <ul class="fins">
-      {fins.map((f) => <li>{f}.</li>)}
-    </ul>
-  </section>
-
-  <section class="seccao contentor">
     <div class="caixa">
       <h2>Órgãos sociais</h2>
       <p>
@@ -77,24 +51,6 @@ const fins = [
     font-size: 1.2rem;
     font-weight: 600;
     color: var(--verde);
-  }
-
-  .fins {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
-    gap: 1rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .fins li {
-    padding: 1.1rem 1.25rem;
-    background: var(--superficie);
-    border: 1px solid var(--linha);
-    border-left: 4px solid var(--dourado);
-    border-radius: var(--raio);
-    font-size: 0.98rem;
   }
 
   .caixa {
