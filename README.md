@@ -4,8 +4,9 @@ Site público da Associação Guimarães em Movimento: **guimaraesemmovimento.pt
 
 ## Como publicar notícias e eventos
 
-1. Entre em **[app.pagescms.org](https://app.pagescms.org)** com o email com que foi convidado(a).
-2. Escolha o projeto **guimaraes-em-movimento / site**.
+1. Abra **[guimaraesemmovimento.pt/admin](https://guimaraesemmovimento.pt/admin)** (abre o painel de edição, o
+   Pages CMS) e entre com o email com que foi convidado(a).
+2. Se lhe pedir para escolher um projeto, escolha **guimaraes-em-movimento / site**.
 3. No menu da esquerda, escolha **Notícias** ou **Eventos** e carregue em **Add an entry** (adicionar).
 4. Preencha os campos e carregue em **Save** (guardar).
 5. O site atualiza-se sozinho em 1–2 minutos.
