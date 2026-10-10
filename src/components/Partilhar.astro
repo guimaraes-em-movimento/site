@@ -1,0 +1,99 @@
+---
+interface Props {
+  titulo: string;
+  url: string;
+}
+
+const { titulo, url } = Astro.props;
+const whatsapp = `https://wa.me/?text=${encodeURIComponent(`${titulo} ${url}`)}`;
+const facebook = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+---
+
+<div class="partilhar" data-url={url} data-titulo={titulo}>
+  <p class="partilhar__titulo">Partilhar</p>
+  <div class="partilhar__botoes">
+    <button type="button" class="partilhar__botao partilhar__botao--principal" data-nativo hidden>Partilhar…</button>
+    <a class="partilhar__botao" href={whatsapp} target="_blank" rel="noopener">WhatsApp</a>
+    <a class="partilhar__botao" href={facebook} target="_blank" rel="noopener">Facebook</a>
+    <button type="button" class="partilhar__botao" data-copiar>Copiar link</button>
+  </div>
+</div>
+
+<script>
+  for (const caixa of document.querySelectorAll<HTMLElement>('.partilhar')) {
+    const url = caixa.dataset.url!;
+    const title = caixa.dataset.titulo!;
+    const nativo = caixa.querySelector<HTMLButtonElement>('[data-nativo]')!;
+    if (navigator.share) {
+      nativo.hidden = false;
+      nativo.addEventListener('click', () => navigator.share({ title, url }).catch(() => {}));
+    }
+    const copiar = caixa.querySelector<HTMLButtonElement>('[data-copiar]')!;
+    copiar.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+        copiar.textContent = 'Link copiado ✓';
+        setTimeout(() => (copiar.textContent = 'Copiar link'), 2000);
+      } catch {
+        window.prompt('Copie o link:', url);
+      }
+    });
+  }
+</script>
+
+<style>
+  .partilhar {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--linha);
+  }
+
+  .partilhar__titulo {
+    margin: 0 0 0.75rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dourado-texto);
+  }
+
+  .partilhar__botoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .partilhar__botao {
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--linha);
+    border-radius: 999px;
+    background: var(--superficie);
+    color: var(--verde);
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+
+  .partilhar__botao:hover {
+    border-color: var(--verde);
+    color: var(--verde);
+  }
+
+  .partilhar__botao--principal {
+    border-color: var(--verde);
+    background: var(--verde);
+    color: #fff;
+  }
+
+  .partilhar__botao--principal:hover {
+    background: var(--verde-escuro);
+    color: #fff;
+  }
+
+  .partilhar__botao[hidden] {
+    display: none;
+  }
+</style>

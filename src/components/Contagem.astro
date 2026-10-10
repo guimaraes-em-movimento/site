@@ -1,0 +1,41 @@
+---
+// "Faltam N dias" até um evento. O texto é calculado na publicação e acertado no browser de quem visita.
+interface Props {
+  data: Date;
+}
+
+const { data } = Astro.props;
+const iso = data.toISOString().slice(0, 10);
+const dias = Math.round((Date.parse(iso) - Date.parse(new Date().toISOString().slice(0, 10))) / 864e5);
+const texto = (d: number) => (d > 1 ? `Faltam ${d} dias` : d === 1 ? 'É amanhã' : d === 0 ? 'É hoje' : '');
+---
+
+<span class="contagem" data-contagem={iso} hidden={dias < 0}>{texto(dias)}</span>
+
+<script>
+  for (const el of document.querySelectorAll<HTMLElement>('[data-contagem]')) {
+    const [a, m, d] = el.dataset.contagem!.split('-').map(Number);
+    const agora = new Date();
+    const dias = Math.round((Date.UTC(a, m - 1, d) - Date.UTC(agora.getFullYear(), agora.getMonth(), agora.getDate())) / 864e5);
+    el.textContent = dias > 1 ? `Faltam ${dias} dias` : dias === 1 ? 'É amanhã' : dias === 0 ? 'É hoje' : '';
+    el.hidden = dias < 0;
+  }
+</script>
+
+<style>
+  .contagem {
+    display: inline-block;
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    background: var(--dourado-claro);
+    color: var(--verde-escuro);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .contagem[hidden] {
+    display: none;
+  }
+</style>

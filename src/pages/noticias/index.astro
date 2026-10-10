@@ -19,8 +19,8 @@ const todas = await noticias();
     {
       todas.length > 0 ? (
         <div class="grelha">
-          {todas.map((n) => (
-            <CartaoNoticia noticia={n} />
+          {todas.map((n, i) => (
+            <CartaoNoticia noticia={n} destaque={i === 0} />
           ))}
         </div>
       ) : (

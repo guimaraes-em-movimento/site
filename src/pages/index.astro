@@ -2,22 +2,29 @@
 import Base from '../layouts/Base.astro';
 import CartaoNoticia from '../components/CartaoNoticia.astro';
 import CartaoEvento from '../components/CartaoEvento.astro';
+import Contagem from '../components/Contagem.astro';
+import { Image } from 'astro:assets';
+import { foto } from '../lib/imagens';
 import { eventos, noticias, dia, mesCurto, diaSemana, isoDia } from '../lib/conteudo';
 
 const { proximos } = await eventos();
 const destaque = proximos[0];
 const outrosEventos = proximos.slice(1, 4);
-const ultimas = (await noticias()).slice(0, 3);
+const ultimas = (await noticias()).slice(0, 4);
+const capaDestaque = destaque ? foto(destaque.data.imagem) : undefined;
 ---
 
 <Base tituloCompleto="Associação Guimarães em Movimento · Desporto e atividade física em Guimarães">
   <section class="heroi">
     <img class="heroi__fundo" src="/marca.svg" alt="" aria-hidden="true" />
-    <div class="contentor heroi__conteudo">
+    <div class:list={["contentor heroi__conteudo", { "heroi__conteudo--imagem": capaDestaque }]}>
       {
         destaque ? (
           <div data-destaque={isoDia(destaque.data.data)}>
-            <span class="heroi__etiqueta">Próximo evento</span>
+            <div class="heroi__etiquetas">
+              <span class="heroi__etiqueta">Próximo evento</span>
+              <Contagem data={destaque.data.data} />
+            </div>
             <h1>{destaque.data.titulo}</h1>
             {destaque.data.subtitulo && <p class="heroi__sub">{destaque.data.subtitulo}</p>}
             <div class="heroi__data">
@@ -37,13 +44,27 @@ const ultimas = (await noticias()).slice(0, 3);
           </div>
         ) : (
           <div>
-            <span class="heroi__etiqueta">Desporto · Comunidade · Território</span>
+            <div class="heroi__etiquetas">
+              <span class="heroi__etiqueta">Desporto · Comunidade · Território</span>
+            </div>
             <h1>Guimarães em Movimento</h1>
             <p class="heroi__sub">Atletismo, corridas, caminhadas e atividade física para todos.</p>
             <a class="botao botao--dourado" href="/eventos/">
               Ver eventos <span aria-hidden="true">→</span>
             </a>
           </div>
+        )
+      }
+      {
+        capaDestaque && (
+          <Image
+            class="heroi__imagem"
+            src={capaDestaque}
+            alt={destaque?.data.imagem_descricao ?? ''}
+            widths={[480, 720, 960]}
+            sizes="(max-width: 860px) 100vw, 440px"
+            loading="eager"
+          />
         )
       }
     </div>
@@ -88,8 +109,8 @@ const ultimas = (await noticias()).slice(0, 3);
     {
       ultimas.length > 0 ? (
         <div class="grelha">
-          {ultimas.map((n) => (
-            <CartaoNoticia noticia={n} />
+          {ultimas.map((n, i) => (
+            <CartaoNoticia noticia={n} destaque={i === 0} />
           ))}
         </div>
       ) : (
@@ -137,9 +158,32 @@ const ultimas = (await noticias()).slice(0, 3);
     padding-block: clamp(3.5rem, 9vw, 6.5rem);
   }
 
+  .heroi__conteudo--imagem {
+    display: grid;
+    grid-template-columns: 1fr minmax(240px, 440px);
+    gap: 2.5rem 4rem;
+    align-items: center;
+  }
+
+  .heroi__imagem {
+    justify-self: end;
+    width: auto;
+    max-width: 100%;
+    max-height: 34rem;
+    border-radius: 18px;
+    box-shadow: 0 30px 60px -25px rgb(0 0 0 / 0.6);
+  }
+
+  .heroi__etiquetas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
   .heroi__etiqueta {
     display: inline-block;
-    margin-bottom: 1rem;
     padding: 0.35rem 0.85rem;
     border: 1px solid rgb(217 169 63 / 0.6);
     border-radius: 999px;
@@ -220,6 +264,17 @@ const ultimas = (await noticias()).slice(0, 3);
   .lista-eventos {
     display: grid;
     gap: 1rem;
+  }
+
+  @media (max-width: 860px) {
+    .heroi__conteudo--imagem {
+      grid-template-columns: 1fr;
+    }
+
+    .heroi__imagem {
+      justify-self: start;
+      max-height: 26rem;
+    }
   }
 
   @media (max-width: 760px) {

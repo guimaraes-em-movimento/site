@@ -4,6 +4,8 @@ import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import { foto } from '../../lib/imagens';
 import { imagemPartilha, migalhas, referenciaOrganizacao } from '../../lib/seo';
+import Contagem from '../../components/Contagem.astro';
+import Partilhar from '../../components/Partilhar.astro';
 import { dataLonga, diaSemana, isoDia } from '../../lib/conteudo';
 
 export async function getStaticPaths() {
@@ -43,6 +45,15 @@ const dados = [
   ]),
 ];
 const { Content } = await render(evento);
+
+const diaICS = (d: Date) => isoDia(d).replace(/-/g, '');
+const googleCalendar =
+  'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+  `&text=${encodeURIComponent(titulo)}` +
+  `&dates=${diaICS(data)}/${diaICS(new Date(data.getTime() + 864e5))}` +
+  `&details=${encodeURIComponent([hora, urlPagina].filter(Boolean).join('\n\n'))}` +
+  (local ? `&location=${encodeURIComponent(local)}` : '');
+const jaPassou = isoDia(data) < new Date().toISOString().slice(0, 10);
 ---
 
 <Base
@@ -52,9 +63,11 @@ const { Content } = await render(evento);
   imagemDescricao={imagem_descricao}
   dados={dados}
 >
-  <header class="topo-pagina">
-    <div class="contentor">
+  <header class="topo-evento">
+    <img class="topo-evento__fundo" src="/marca.svg" alt="" aria-hidden="true" />
+    <div class="contentor topo-evento__conteudo">
       <a class="voltar" href="/eventos/">← Eventos</a>
+      <Contagem data={data} />
       <h1>{titulo}</h1>
       {subtitulo && <p class="subtitulo">{subtitulo}</p>}
     </div>
@@ -92,27 +105,114 @@ const { Content } = await render(evento);
           )
         }
       </dl>
+      <div class="ficha__calendario" data-ate={isoDia(data)} hidden={jaPassou}>
+        <p>Adicionar ao calendário</p>
+        <a href={googleCalendar} target="_blank" rel="noopener">Google Calendar</a>
+        <a href={`/eventos/${evento.id}.ics`} download>iPhone / Outlook</a>
+      </div>
     </aside>
 
     <article class="texto">
       {capa && <Image class="capa" src={capa} alt={imagem_descricao ?? ''} widths={[600, 900, 1400]} sizes="(max-width: 860px) 100vw, 760px" loading="eager" />}
       {resumo && <p class="resumo">{resumo}</p>}
       <Content />
+      <Partilhar titulo={titulo} url={urlPagina} />
     </article>
   </div>
 </Base>
 
+<script is:inline>
+  // Depois do dia do evento deixa de fazer sentido adicioná-lo ao calendário.
+  (function () {
+    var el = document.querySelector('[data-ate]');
+    if (el && el.getAttribute('data-ate') < new Date().toISOString().slice(0, 10)) el.hidden = true;
+  })();
+</script>
+
 <style>
+  .topo-evento {
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    background:
+      radial-gradient(ellipse at 85% 10%, rgb(217 169 63 / 0.28), transparent 50%),
+      linear-gradient(160deg, var(--verde) 0%, var(--verde-escuro) 100%);
+  }
+
+  .topo-evento__fundo {
+    position: absolute;
+    right: -4%;
+    bottom: -20%;
+    width: min(60vw, 640px);
+    filter: brightness(0) invert(1);
+    opacity: 0.07;
+    pointer-events: none;
+  }
+
+  .topo-evento__conteudo {
+    position: relative;
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+  }
+
   .voltar {
-    display: inline-block;
-    margin-bottom: 1rem;
+    display: table;
+    margin-bottom: 1.25rem;
+    color: var(--verde-suave);
     font-weight: 600;
     text-decoration: none;
   }
 
-  .topo-pagina .subtitulo {
+  .voltar:hover {
+    color: var(--dourado-claro);
+  }
+
+  .topo-evento h1 {
+    max-width: 22ch;
+    margin: 0.9rem 0 0.25em;
+    color: #fff;
+  }
+
+  .subtitulo {
+    margin: 0;
+    font-size: 1.15rem;
     font-weight: 700;
-    color: var(--dourado-texto);
+    color: var(--dourado-claro);
+  }
+
+  .ficha__calendario {
+    margin-top: 1.4rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid rgb(255 255 255 / 0.18);
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .ficha__calendario[hidden] {
+    display: none;
+  }
+
+  .ficha__calendario p {
+    margin: 0 0 0.15rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dourado-claro);
+  }
+
+  .ficha .ficha__calendario a {
+    display: block;
+    padding: 0.55rem 0.9rem;
+    border: 1px solid rgb(255 255 255 / 0.28);
+    border-radius: 999px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 0.92rem;
+  }
+
+  .ficha .ficha__calendario a:hover {
+    border-color: var(--dourado-claro);
+    color: var(--dourado-claro);
   }
 
   .evento {

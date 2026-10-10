@@ -23,6 +23,24 @@
   box-sizing: border-box;
 }
 
+/* Transição suave entre páginas (browsers recentes); desligada para quem prefere menos movimento. */
+@view-transition {
+  navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
 html {
   -webkit-text-size-adjust: 100%;
 }
@@ -199,6 +217,10 @@ h3 {
   margin-top: 2em;
 }
 
+.texto > h2:first-child {
+  margin-top: 0;
+}
+
 .texto h3 {
   margin-top: 1.6em;
 }
@@ -222,6 +244,8 @@ h3 {
 }
 
 .texto img {
+  width: auto;
+  max-height: 40rem;
   border-radius: var(--raio);
   margin: 1.5em 0;
 }
