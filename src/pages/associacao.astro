@@ -49,9 +49,9 @@ const fins = [
 
   <section class="seccao contentor">
     <h2>Os nossos fins</h2>
-    <ol class="fins">
+    <ul class="fins">
       {fins.map((f) => <li>{f}.</li>)}
-    </ol>
+    </ul>
   </section>
 
   <section class="seccao contentor">
@@ -87,33 +87,15 @@ const fins = [
     margin: 0;
     padding: 0;
     list-style: none;
-    counter-reset: fim;
   }
 
   .fins li {
-    counter-increment: fim;
-    position: relative;
-    padding: 1.1rem 1.2rem 1.1rem 3.6rem;
+    padding: 1.1rem 1.25rem;
     background: var(--superficie);
     border: 1px solid var(--linha);
+    border-left: 4px solid var(--dourado);
     border-radius: var(--raio);
     font-size: 0.98rem;
-  }
-
-  .fins li::before {
-    content: counter(fim, lower-alpha);
-    position: absolute;
-    left: 1.1rem;
-    top: 1rem;
-    display: grid;
-    place-items: center;
-    width: 1.8rem;
-    height: 1.8rem;
-    border-radius: 50%;
-    background: var(--verde);
-    color: var(--dourado-claro);
-    font-weight: 800;
-    font-size: 0.9rem;
   }
 
   .caixa {
