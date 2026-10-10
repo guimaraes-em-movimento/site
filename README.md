@@ -29,3 +29,7 @@ Site público da Associação Guimarães em Movimento: **guimaraesemmovimento.pt
 
 Site estático feito com [Astro](https://astro.build), publicado no [Cloudflare Pages](https://pages.cloudflare.com/)
 a cada alteração. Os conteúdos estão em `src/content/` (Markdown) e as imagens em `public/media/`.
+
+Enquanto o site não é lançado, quem o visita vê só uma página "Em breve". Para ver o site completo, abra
+**Acesso reservado** nessa página e escreva a palavra-passe (peça-a à Direção). As alterações publicadas continuam a
+aparecer normalmente para quem entrou.

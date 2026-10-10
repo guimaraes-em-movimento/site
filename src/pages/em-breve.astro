@@ -1,0 +1,164 @@
+---
+// Página mostrada a quem visita o site antes do lançamento (ver functions/_middleware.js).
+import '@fontsource/montserrat/400.css';
+import '@fontsource/montserrat/600.css';
+import '@fontsource/montserrat/700.css';
+import '@fontsource/montserrat/800.css';
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Associação Guimarães em Movimento</title>
+    <meta name="description" content="O site da Associação Guimarães em Movimento está a ser preparado." />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#014423" />
+  </head>
+  <body>
+    <main class="em-breve">
+      <img class="em-breve__fundo" src="/marca.svg" alt="" aria-hidden="true" />
+      <div class="cartao">
+        <img class="logo" src="/logo.svg" alt="Associação Guimarães em Movimento" width="360" height="266" />
+        <span class="etiqueta">Em breve</span>
+        <h1>Estamos a preparar o nosso site</h1>
+        <p>Em breve vai encontrar aqui os eventos e as notícias da Associação Guimarães em Movimento.</p>
+
+        <details>
+          <summary>Acesso reservado</summary>
+          <form method="post" action="/entrar">
+            <label for="senha">Palavra-passe</label>
+            <div class="linha">
+              <input id="senha" name="senha" type="password" autocomplete="current-password" required />
+              <button class="botao" type="submit">Entrar</button>
+            </div>
+            <p class="erro" id="erro" role="alert" hidden>Palavra-passe incorreta. Tente novamente.</p>
+          </form>
+        </details>
+      </div>
+    </main>
+
+    <script is:inline>
+      if (/[?&]erro=1/.test(location.search)) {
+        document.getElementById('erro').hidden = false;
+        document.querySelector('details').open = true;
+        document.getElementById('senha').focus();
+      }
+    </script>
+  </body>
+</html>
+
+<style>
+  .em-breve {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 2rem 16px;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at 85% 10%, rgb(217 169 63 / 0.28), transparent 50%),
+      linear-gradient(160deg, var(--verde) 0%, var(--verde-escuro) 100%);
+  }
+
+  .em-breve__fundo {
+    position: absolute;
+    right: -6%;
+    bottom: -8%;
+    width: min(80vw, 900px);
+    filter: brightness(0) invert(1);
+    opacity: 0.07;
+    pointer-events: none;
+  }
+
+  .cartao {
+    position: relative;
+    width: 100%;
+    max-width: 34rem;
+    padding: clamp(1.75rem, 6vw, 3rem);
+    border-radius: calc(var(--raio) * 1.5);
+    background: var(--superficie);
+    box-shadow: 0 24px 60px -24px rgb(0 0 0 / 0.45);
+    text-align: center;
+  }
+
+  .logo {
+    width: min(100%, 240px);
+    margin: 0 auto 1.5rem;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+  }
+
+  .cartao > p {
+    margin: 0 auto;
+    max-width: 32ch;
+    color: var(--texto-suave);
+  }
+
+  details {
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--linha);
+  }
+
+  summary {
+    width: fit-content;
+    margin-inline: auto;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--texto-suave);
+  }
+
+  form {
+    margin-top: 1rem;
+    text-align: left;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 0.35rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .linha {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--linha);
+    border-radius: 999px;
+    background: var(--fundo);
+    font: inherit;
+  }
+
+  input:focus-visible {
+    border-color: var(--verde);
+  }
+
+  button {
+    border: 0;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .erro {
+    margin: 0.6rem 0 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #a3261b;
+  }
+</style>
