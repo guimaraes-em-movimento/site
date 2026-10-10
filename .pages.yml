@@ -1,4 +1,4 @@
-# Configuração do painel de edição (Pages CMS — https://app.pagescms.org)
+# Configuração do painel de edição (Pages CMS, https://app.pagescms.org)
 media:
   input: public/media
   output: /media

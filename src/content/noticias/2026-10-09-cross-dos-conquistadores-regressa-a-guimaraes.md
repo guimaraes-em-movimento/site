@@ -68,7 +68,7 @@ A 31 de outubro, os Conquistadores voltam ao terreno, determinados a continuar a
 
 ## Informações sobre a prova
 
-**3.º Cross dos Conquistadores — Campeonato Regional de Corta-Mato Longo**
+**3.º Cross dos Conquistadores** (Campeonato Regional de Corta-Mato Longo)
 
 - **Data:** 31 de outubro de 2026 (sábado)
 - **Hora:** Partidas das 14h00 às 16h40

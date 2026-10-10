@@ -13,7 +13,7 @@ interface Props {
 }
 
 const nomeSite = 'Associação Guimarães em Movimento';
-const { titulo, descricao = 'Associação sem fins lucrativos que promove o desporto e a atividade física em Guimarães.' } =
+const { titulo, descricao = 'A Associação Guimarães em Movimento promove o desporto e a atividade física em Guimarães.' } =
   Astro.props;
 const tituloCompleto = titulo ? `${titulo} · ${nomeSite}` : nomeSite;
 const canonico = new URL(Astro.url.pathname, Astro.site);

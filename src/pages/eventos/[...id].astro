@@ -13,7 +13,7 @@ const { titulo, subtitulo, data, hora, local, mapa, resumo, imagem, imagem_descr
 const { Content } = await render(evento);
 ---
 
-<Base titulo={titulo} descricao={resumo ?? `${titulo} — ${dataLonga(data)}`}>
+<Base titulo={titulo} descricao={resumo ?? `${titulo}, ${dataLonga(data)}`}>
   <header class="topo-pagina">
     <div class="contentor">
       <a class="voltar" href="/eventos/">← Eventos</a>
