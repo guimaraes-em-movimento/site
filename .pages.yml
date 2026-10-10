@@ -1,8 +1,12 @@
 # Configuração do painel de edição (Pages CMS, https://app.pagescms.org)
+# As fotos ficam em src/assets/media e o site otimiza-as. O caminho gravado é relativo ao ficheiro da entrada.
 media:
-  input: public/media
-  output: /media
-  extensions: [jpg, jpeg, png, webp, gif, pdf]
+  - name: imagens
+    label: Fotografias
+    input: src/assets/media
+    output: ../../assets/media
+    extensions: [jpg, jpeg, png, webp]
+    rename: safe
 
 content:
   - name: noticias
@@ -33,7 +37,7 @@ content:
       - name: imagem
         label: Imagem de capa
         type: image
-        description: Fotografia na horizontal, idealmente com menos de 1 MB.
+        description: De preferência na horizontal. Pode enviar a foto original do telemóvel, o site reduz o tamanho sozinho.
       - name: imagem_descricao
         label: Descrição da imagem
         type: string
@@ -89,7 +93,7 @@ content:
       - name: imagem
         label: Imagem ou cartaz
         type: image
-        description: Idealmente com menos de 1 MB.
+        description: Pode enviar a foto original do telemóvel, o site reduz o tamanho sozinho.
       - name: imagem_descricao
         label: Descrição da imagem
         type: string

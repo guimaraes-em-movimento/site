@@ -1,6 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
+import { foto } from '../../lib/imagens';
 import { dataLonga, isoDia } from '../../lib/conteudo';
 
 export async function getStaticPaths() {
@@ -10,6 +12,7 @@ export async function getStaticPaths() {
 
 const { noticia } = Astro.props;
 const { titulo, data, resumo, imagem, imagem_descricao } = noticia.data;
+const capa = foto(imagem);
 const { Content } = await render(noticia);
 ---
 
@@ -26,7 +29,7 @@ const { Content } = await render(noticia);
 
     <div class="contentor seccao">
       <div class="texto">
-        {imagem && <img class="capa" src={imagem} alt={imagem_descricao ?? ''} />}
+        {capa && <Image class="capa" src={capa} alt={imagem_descricao ?? ''} widths={[600, 900, 1400]} sizes="(max-width: 860px) 100vw, 760px" loading="eager" />}
         <Content />
       </div>
     </div>

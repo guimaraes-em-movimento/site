@@ -14,8 +14,11 @@ Site público da Associação Guimarães em Movimento: **guimaraesemmovimento.pt
 ### Dicas
 
 - **Rascunho:** se ativar "Rascunho", a entrada fica guardada mas não aparece no site. Desative quando estiver pronta.
-- **Fotografias:** prefira fotos na horizontal e com menos de 1 MB. Fotos tiradas com o telemóvel costumam ter 3 a 5 MB;
-  reduza-as antes de enviar (por exemplo, enviando-as primeiro para si próprio pelo WhatsApp).
+- **Fotografias:** prefira fotos na horizontal. Pode enviar a foto original do telemóvel: o site reduz o tamanho e
+  converte-a sozinho.
+- **Apagar fotografias:** antes de apagar uma foto na biblioteca de imagens, tire-a do texto das notícias ou eventos
+  onde aparece. Se uma foto usada no meio do texto for apagada, a publicação falha (o site continua com a versão
+  anterior até a referência ser corrigida).
 - **Descrição da imagem:** escreva numa frase o que se vê na foto. Ajuda quem usa leitores de ecrã.
 - **Eventos:** os eventos aparecem em "Próximos" até ao próprio dia e depois passam para "Realizados".
 - **Fotografias de pessoas:** só publique fotos de crianças e jovens com autorização dos pais ou encarregados de
@@ -29,7 +32,7 @@ Site público da Associação Guimarães em Movimento: **guimaraesemmovimento.pt
 ## Como funciona
 
 Site estático feito com [Astro](https://astro.build), publicado no [Cloudflare Pages](https://pages.cloudflare.com/)
-a cada alteração. Os conteúdos estão em `src/content/` (Markdown) e as imagens em `public/media/`.
+a cada alteração. Os conteúdos estão em `src/content/` (Markdown) e as fotografias em `src/assets/media/`.
 
 Enquanto o site não é lançado, quem o visita vê só uma página "Em breve". Para ver o site completo, abra
 **Acesso reservado** nessa página e escreva a palavra-passe (peça-a à Direção). As alterações publicadas continuam a
